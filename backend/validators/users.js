@@ -1,4 +1,4 @@
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+import { passwordRegex } from '../config.js';
 
 const createUser = {
 	email: {
@@ -6,6 +6,9 @@ const createUser = {
 			errorMessage: 'Invalid email',
 		},
 		normalizeEmail: true,
+		notEmpty: {
+			errorMessage: 'Email is required',
+		},
 	},
 	username: {
 		isString: {
@@ -18,16 +21,38 @@ const createUser = {
 			},
 			errorMessage: 'Username must be between 3 and 15 characters',
 		},
+		notEmpty: {
+			errorMessage: 'Username is required',
+		},
 	},
 	password: {
-		isString: {
-			errorMessage: 'Username must be between 3 and 15 characters',
-		},
+		isString: true,
 		matches: {
 			options: passwordRegex,
 			errorMessage: 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and one number',
 		},
+		notEmpty: {
+			errorMessage: 'Password is required',
+		},
 	},
 };
 
-export { createUser };
+const loginUser = {
+	email: {
+		isEmail: {
+			errorMessage: 'Invalid email',
+		},
+		normalizeEmail: true,
+		notEmpty: {
+			errorMessage: 'Email is required',
+		},
+	},
+	password: {
+		isString: true,
+		notEmpty: {
+			errorMessage: 'Password is required',
+		},
+	},
+};
+
+export { createUser, loginUser };
