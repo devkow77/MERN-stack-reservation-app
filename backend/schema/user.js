@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { emailRegex, passwordRegex } from '../config.js';
+import { emailRegex } from '../config.js';
 
 const userSchema = new mongoose.Schema({
 	email: {
@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: true,
-		match: [passwordRegex, 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and one number'],
 	},
 });
 
