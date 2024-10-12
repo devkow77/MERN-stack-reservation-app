@@ -1,15 +1,6 @@
 import { passwordRegex } from '../config.js';
 
 const createUser = {
-	email: {
-		isEmail: {
-			errorMessage: 'Invalid email',
-		},
-		normalizeEmail: true,
-		notEmpty: {
-			errorMessage: 'Email is required',
-		},
-	},
 	username: {
 		isString: {
 			errorMessage: 'Invalid username',
@@ -25,6 +16,15 @@ const createUser = {
 			errorMessage: 'Username is required',
 		},
 	},
+	email: {
+		isEmail: {
+			errorMessage: 'Invalid email',
+		},
+		normalizeEmail: true,
+		notEmpty: {
+			errorMessage: 'Email is required',
+		},
+	},
 	password: {
 		isString: true,
 		matches: {
@@ -33,6 +33,19 @@ const createUser = {
 		},
 		notEmpty: {
 			errorMessage: 'Password is required',
+		},
+	},
+	phoneNumber: {
+		isString: true,
+		notEmpty: {
+			errorMessage: 'Phone number is required',
+		},
+		isLength: {
+			options: {
+				min: 9,
+				max: 9,
+			},
+			errorMessage: 'Phone number must be 9 characters long',
 		},
 	},
 };

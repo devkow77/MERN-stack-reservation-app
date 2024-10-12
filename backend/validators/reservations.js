@@ -1,12 +1,26 @@
-import mongoose from 'mongoose';
-
 const createReservation = {
-	place: {
+	specialist: {
 		isString: {
-			errorMessage: 'Place must be a string',
+			errorMessage: 'Specialist must be a string',
 		},
 		notEmpty: {
-			errorMessage: 'Place is required',
+			errorMessage: 'Specialist is required',
+		},
+	},
+	address: {
+		isString: {
+			errorMessage: 'Address must be a string',
+		},
+		notEmpty: {
+			errorMessage: 'Address is required',
+		},
+	},
+	service: {
+		isString: {
+			errorMessage: 'Service must be a string',
+		},
+		notEmpty: {
+			errorMessage: 'Service is required',
 		},
 	},
 	price: {
@@ -17,20 +31,12 @@ const createReservation = {
 			errorMessage: 'Price is required',
 		},
 	},
-	workTime: {
-		isNumeric: {
-			errorMessage: 'Work time must be a number',
-		},
-		notEmpty: {
-			errorMessage: 'Work time is required',
-		},
-	},
-	deadline: {
+	date: {
 		isString: {
-			errorMessage: 'Deadline must be a date',
+			errorMessage: 'Date must be a date',
 		},
 		notEmpty: {
-			errorMessage: 'Deadline is required',
+			errorMessage: 'Date is required',
 		},
 	},
 };

@@ -1,20 +1,15 @@
 import { Router } from 'express';
-import { validationResult, matchedData, checkSchema } from 'express-validator';
+import { checkSchema } from 'express-validator';
 import { createUser, loginUser } from '../validators/users.js';
-import User from '../schema/user.js';
+import User from '../schema/user/user.js';
 import { hashPassword, comparePasswords } from '../utils/bcrypt.js';
+import { checkDataValidation } from '../middlewares/index.js';
 
 const router = Router();
 
 // Create new user
-router.post('/auth/register', checkSchema(createUser), async (req, res) => {
-	const result = validationResult(req);
-
-	if (!result.isEmpty()) {
-		return res.status(400).send({ errors: result.array() });
-	}
-
-	const data = matchedData(req);
+router.post('/auth/register', checkSchema(createUser), checkDataValidation, async (req, res) => {
+	const { data } = req;
 
 	try {
 		const findUserByEmail = await User.findOne({ email: data.email });
@@ -34,14 +29,8 @@ router.post('/auth/register', checkSchema(createUser), async (req, res) => {
 });
 
 // Login
-router.post('/auth/login', checkSchema(loginUser), async (req, res) => {
-	const result = validationResult(req);
-
-	if (!result.isEmpty()) {
-		return res.status(400).send({ errors: result.array() });
-	}
-
-	const data = matchedData(req);
+router.post('/auth/login', checkSchema(loginUser), checkDataValidation, async (req, res) => {
+	const { data } = req;
 
 	try {
 		const findUser = await User.findOne({ email: data.email });

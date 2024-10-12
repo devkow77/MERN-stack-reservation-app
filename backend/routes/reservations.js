@@ -1,43 +1,37 @@
 import { Router } from 'express';
-import { validationResult, matchedData, checkSchema } from 'express-validator';
+import { checkSchema } from 'express-validator';
 import { createReservation } from '../validators/reservations.js';
-import Reservation from '../schema/reservation.js';
+import User from '../schema/user/user.js';
+import { checkAuthSession, checkDataValidation } from '../middlewares/index.js';
 
 const router = Router();
 
 // Show all user reservations
-router.get('/', async (req, res) => {
-	if (!req.session.user) {
-		return res.status(400).send({ msg: 'You must be logged in first!' });
-	}
-
+router.get('/', checkAuthSession, async (req, res) => {
 	try {
-		const findReservations = await Reservation.find({ userId: req.session.user._id });
+		const findReservations = await User.findById(req.session.user._id).populate('reservations');
 
 		if (!findReservations) throw new Error('Something went wrong, cannot find reservations!');
 
-		return res.status(200).send({ data: findReservations });
+		return res.status(200).send({ data: findReservations.reservations });
 	} catch (err) {
 		return res.status(400).send({ msg: err.message });
 	}
 });
 
 // Create new reservation
-router.post('/', checkSchema(createReservation), async (req, res) => {
-	if (!req.session.user) {
-		return res.status(400).send({ msg: 'You must be logged in first!' });
-	}
-
-	const result = validationResult(req);
-
-	if (!result.isEmpty()) {
-		return res.status(400).send({ errors: result.array() });
-	}
-
-	const data = matchedData(req);
+router.post('/', checkAuthSession, checkSchema(createReservation), checkDataValidation, async (req, res) => {
+	const {
+		data,
+		session: {
+			user: { _id },
+		},
+	} = req;
 
 	try {
-		const newReservation = await new Reservation({ ...data, userId: req.session.user._id, deadline: new Date(data.deadline) });
+		const newReservation = await User.findByIdAndUpdate(_id, {
+			$push: { reservations: { ...data, deadline: new Date(data.deadline) } },
+		});
 
 		if (!newReservation) throw new Error('Something went wrong, cannot create reservation!');
 
@@ -49,44 +43,45 @@ router.post('/', checkSchema(createReservation), async (req, res) => {
 });
 
 // Delete reservation
-router.delete('/:id', async (req, res) => {
-	if (!req.session.user) {
-		return res.status(400).send({ msg: 'You must be logged in first!' });
-	}
-
+router.delete('/:id', checkAuthSession, async (req, res) => {
 	const {
 		params: { id },
 	} = req;
 
 	try {
-		const findReservation = await Reservation.findByIdAndDelete(id);
+		const findUser = await User.findById(req.session.user._id);
+		findUser.reservations = findUser.reservations.filter((reservation) => reservation._id.toString() !== id);
 
-		if (!findReservation) throw new Error('Something went wrong, cannot delete reservation!');
+		const updatedUser = await findUser.save();
 
-		return res.status(400).send({ msg: 'Reservation has been deleted!', data: findReservation });
+		if (!findUser) throw new Error('Something went wrong, cannot find user!');
+
+		return res.status(200).send({ msg: 'Reservation has been deleted!', data: updatedUser.reservations });
 	} catch (err) {
 		return res.status(400).send({ msg: err.message });
 	}
 });
 
 // Update reservation
-router.patch('/:id', async (req, res) => {
-	if (!req.session.user) {
-		return res.status(400).send({ msg: 'You must be logged in first!' });
-	}
-
+router.patch('/:id', checkAuthSession, async (req, res) => {
 	const {
 		params: { id },
+		session: {
+			user: { _id },
+		},
 	} = req;
 
 	try {
-		const updateReservation = await Reservation.findByIdAndUpdate(id, req.body);
+		const findUser = await User.findById(_id);
+		if (!findUser) throw new Error('Something went wrong, cannot find user!');
 
-		if (!updateReservation) {
-			throw new Error('Something went wrong, cannot update reservation!');
-		}
+		const findReservation = findUser.reservations.find((reservation) => reservation._id.toString() === id);
+		if (!findReservation) throw new Error('Something went wrong, cannot find reservation!');
 
-		return res.status(200).send({ msg: 'Update reservation', data: updateReservation });
+		findReservation.date = new Date(req.body.date);
+		const updateUser = await findUser.save();
+
+		return res.status(200).send({ msg: 'Update reservation', data: updateUser.reservations });
 	} catch (err) {
 		return res.status(400).send({ msg: err.message });
 	}
