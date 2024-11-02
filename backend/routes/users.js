@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
-import { createUser, loginUser } from '../validators/users.js';
-import User from '../schema/user/user.js';
+import { createUser, loginUser } from '../validators/user.js';
+import User from '../schema/user.js';
 import { hashPassword, comparePasswords } from '../utils/bcrypt.js';
 import { checkDataValidation } from '../middlewares/index.js';
 
 const router = Router();
 
 // Create new user
-router.post('/auth/register', checkSchema(createUser), checkDataValidation, async (req, res) => {
+router.post('/create', checkSchema(createUser), checkDataValidation, async (req, res) => {
 	const { data } = req;
 
 	try {
@@ -29,7 +29,7 @@ router.post('/auth/register', checkSchema(createUser), checkDataValidation, asyn
 });
 
 // Login
-router.post('/auth/login', checkSchema(loginUser), checkDataValidation, async (req, res) => {
+router.post('/signin', checkSchema(loginUser), checkDataValidation, async (req, res) => {
 	const { data } = req;
 
 	try {

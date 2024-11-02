@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import { emailRegex } from '../../config.js';
-import { reservationSchema } from './reservation.js';
+import { emailRegex } from '../config.js';
 
 const userSchema = new mongoose.Schema({
 	username: {
@@ -14,7 +13,7 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		unique: true,
-		match: [emailRegex, 'Please fill a valid email address'],
+		match: [emailRegex, 'Invalid email'],
 	},
 	password: {
 		type: String,
@@ -23,17 +22,8 @@ const userSchema = new mongoose.Schema({
 	phoneNumber: {
 		type: String,
 		required: true,
-		unique: true,
 		min: 9,
 		max: 9,
-	},
-	reservations: {
-		type: [reservationSchema],
-		default: [],
-	},
-	favourites: {
-		type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Specialist' }],
-		default: [],
 	},
 });
 

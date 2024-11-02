@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { workerSchema } from './worker.js';
 
 const specialistSchema = new mongoose.Schema({
 	name: {
@@ -19,9 +18,9 @@ const specialistSchema = new mongoose.Schema({
 		min: 9,
 		max: 9,
 	},
-	workers: {
-		type: [workerSchema],
-		default: [],
+	price: {
+		type: Number,
+		required: true,
 	},
 });
 

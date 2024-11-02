@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
-import { createReservation } from '../validators/reservations.js';
-import User from '../schema/user/user.js';
+import { createReservation } from '../validators/reservation.js';
+import User from '../schema/user.js';
+import Reservation from '../schema/reservation.js';
 import { checkAuthSession, checkDataValidation } from '../middlewares/index.js';
 
 const router = Router();
@@ -9,7 +10,7 @@ const router = Router();
 // Show all user reservations
 router.get('/', checkAuthSession, async (req, res) => {
 	try {
-		const findReservations = await User.findById(req.session.user._id).populate('reservations');
+		const findReservations = await User.findById(req.session.user._id);
 
 		if (!findReservations) throw new Error('Something went wrong, cannot find reservations!');
 
@@ -20,7 +21,7 @@ router.get('/', checkAuthSession, async (req, res) => {
 });
 
 // Create new reservation
-router.post('/', checkAuthSession, checkSchema(createReservation), checkDataValidation, async (req, res) => {
+router.post('/create', checkAuthSession, checkSchema(createReservation), checkDataValidation, async (req, res) => {
 	const {
 		data,
 		session: {
@@ -29,12 +30,7 @@ router.post('/', checkAuthSession, checkSchema(createReservation), checkDataVali
 	} = req;
 
 	try {
-		const newReservation = await User.findByIdAndUpdate(_id, {
-			$push: { reservations: { ...data, deadline: new Date(data.deadline) } },
-		});
-
-		if (!newReservation) throw new Error('Something went wrong, cannot create reservation!');
-
+		const newReservation = await Reservation.create({ ...data, userId: _id });
 		await newReservation.save();
 		return res.status(200).send({ msg: 'Reservation has been created!', data: newReservation });
 	} catch (err) {
