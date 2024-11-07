@@ -1,9 +1,10 @@
-import { Header } from "../components/sections/index.ts";
+import { Header, Services } from "../components/index";
 
 const Home = () => {
   return (
     <main>
       <Header />
+      <Services />
     </main>
   );
 };

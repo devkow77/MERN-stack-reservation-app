@@ -1,35 +1,39 @@
 import { motion } from "framer-motion";
-import type { Link } from "../src/lib/interfaces";
+import { Link as LinkType } from "../src/lib/interfaces";
 
-const links: Link[] = [
+const links: LinkType[] = [
   {
-    name: "My reservations",
-    href: "/my-reservations",
+    name: "Usługi",
+    href: "/",
   },
   {
-    name: "Service list",
-    href: "/service-list",
+    name: "Moje rezerwacje",
+    href: "/",
   },
   {
-    name: "News",
-    href: "/news",
+    name: "Faq",
+    href: "/",
   },
   {
-    name: "Contact",
-    href: "/contact",
+    name: "Kontakt",
+    href: "/",
+  },
+  {
+    name: "Pomoc",
+    href: "/",
   },
 ];
 
 const menuMotion = {
   visible: {
-    left: 0,
+    top: 0,
     transition: {
       when: "beforeChildren",
       staggerChildren: 0.2,
     },
   },
   hidden: {
-    left: 100,
+    top: -100,
   },
 };
 
@@ -47,14 +51,18 @@ const itemMotion = {
 const MobileMenu = () => {
   return (
     <motion.section
-      className="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-white xl:hidden"
+      className="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-black/80 md:hidden"
       variants={menuMotion}
       initial="hidden"
       animate="visible"
     >
       <div className="flex flex-col gap-6 font-semibold">
-        {links.map(({ name, href }: Link, index: number) => (
-          <a href={href} key={index} className="text-black">
+        {links.map(({ name, href }: LinkType, index: number) => (
+          <a
+            href={href}
+            key={index}
+            className="duration-200 hover:text-sky-500"
+          >
             <motion.p variants={itemMotion}>{name}</motion.p>
           </a>
         ))}
