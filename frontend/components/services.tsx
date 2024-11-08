@@ -1,15 +1,40 @@
 import { Container } from "../components/index";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+// import { useEffect, useState } from "react";
 
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+
+// interface Specialist {
+//   name: string;
+//   address: string;
+// }
 
 const Services = () => {
+  // const [specialists, setSpecialists] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchSpecialists = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:3000/api/specialist", {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
+  //       const data = await response.json();
+  //       setSpecialists(data);
+  //     } catch (error) {
+  //       console.error("Error fetching specialists:", error);
+  //     }
+  //   };
+
+  //   fetchSpecialists();
+  // }, [specialists]);
+
   return (
-    <article className="py-8 lg:py-16">
+    <article>
       <Container>
         <h2 className="mb-4 font-semibold lg:mb-6 lg:text-xl">
           Niedawno dodane usługi
@@ -31,9 +56,28 @@ const Services = () => {
             }}
             pagination={{ clickable: true }}
           >
-            {Array.from({ length: 6 }).map((_, index) => (
-              <SwiperSlide className="flex aspect-video items-center justify-center rounded-xl bg-black/10">
-                Usługa {index + 1}
+            {/* {specialists.map((specialist: Specialist, index: number) => (
+              <SwiperSlide
+                key={index}
+                className="flex aspect-video items-center justify-center rounded-xl bg-black/10"
+              >
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold">{specialist.name}</h3>
+                  <p className="text-sm">{specialist.address}</p>
+                </div>
+              </SwiperSlide>
+            ))} */}
+            {Array.from({ length: 6 }).map((_, index: number) => (
+              <SwiperSlide
+                key={index}
+                className="flex aspect-video items-center justify-center rounded-xl bg-black/10"
+              >
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold">
+                    Specialist {index + 1}
+                  </h3>
+                  <p className="text-sm">Address</p>
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>

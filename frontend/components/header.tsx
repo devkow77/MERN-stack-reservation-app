@@ -1,11 +1,15 @@
-import { Container, HamburgerBtn } from "./index";
-import { Button } from "./ui/button";
+import {
+  Container,
+  HamburgerBtn,
+  SignClientBtn,
+  SignSpecialistBtn,
+} from "./index";
 import { Input } from "./ui/input";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { ReactTyped } from "react-typed";
 import { FaSearch } from "react-icons/fa";
 
-const services: string[] = [
+const services = [
   "Fryzjer",
   "Barber shop",
   "Salon kosmetyczny",
@@ -18,6 +22,7 @@ const services: string[] = [
 
 const Header = () => {
   const desktop = useMediaQuery("(min-width: 1024px)");
+
   return (
     <header className="relative h-[600px] w-full text-white">
       <div className="absolute z-0 h-full w-full bg-black/50" />
@@ -36,18 +41,12 @@ const Header = () => {
           </a>
           {desktop ? (
             <div className="flex items-center gap-4">
-              <Button className="bg-sky-500 hover:bg-sky-700">
-                Zaloguj się jako klient
-              </Button>
-              <Button className="bg-yellow-500 hover:bg-yellow-700">
-                Dodaj swój biznes 💼
-              </Button>
+              <SignClientBtn name="Zaloguj się jako klient" />
+              <SignSpecialistBtn />
             </div>
           ) : (
             <div className="flex items-center gap-4">
-              <Button className="bg-sky-500 hover:bg-sky-700">
-                Zaloguj się
-              </Button>
+              <SignClientBtn name="Zaloguj się" />
               <HamburgerBtn />
             </div>
           )}
@@ -67,7 +66,7 @@ const Header = () => {
               backSpeed={5}
               loop
               className="text-2xl font-bold lg:text-5xl"
-            ></ReactTyped>
+            />
             <p className="text-sm lg:text-base">
               Odkryj najlepsze miejsca w okolicy i zarezerwuj wizytę online!
             </p>
@@ -84,12 +83,13 @@ const Header = () => {
         </div>
         <div>
           <ul className="flex items-center gap-8 overflow-x-scroll whitespace-nowrap text-sm font-semibold lg:justify-center lg:gap-16 lg:overflow-x-hidden">
-            {services.map((service, index: number) => (
+            {services.map((service, index) => (
               <a
                 href="/"
                 className="duration-200 hover:text-sky-500 hover:underline"
+                key={index}
               >
-                <li key={index}>{service}</li>
+                <li>{service}</li>
               </a>
             ))}
           </ul>

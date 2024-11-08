@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link as LinkType } from "../src/lib/interfaces";
+import SignSpecialistBtn from "./sign-specialist-btn";
 
 const links: LinkType[] = [
   {
@@ -51,7 +52,7 @@ const itemMotion = {
 const MobileMenu = () => {
   return (
     <motion.section
-      className="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-black/80 md:hidden"
+      className="fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-black/90 md:hidden"
       variants={menuMotion}
       initial="hidden"
       animate="visible"
@@ -66,6 +67,9 @@ const MobileMenu = () => {
             <motion.p variants={itemMotion}>{name}</motion.p>
           </a>
         ))}
+        <motion.div animate={{ opacity: [0, 1] }} transition={{ duration: 2 }}>
+          <SignSpecialistBtn />
+        </motion.div>
       </div>
     </motion.section>
   );

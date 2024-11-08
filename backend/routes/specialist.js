@@ -6,6 +6,16 @@ import Specialist from '../schema/specialist.js';
 
 const router = Router();
 
+router.get('/', async (req, res) => {
+	try {
+		const specialists = await Specialist.find();
+		if (!specialists) throw new Error('No specialists found!');
+		return res.status(200).send(specialists);
+	} catch (err) {
+		return res.status(400).send(err.message);
+	}
+});
+
 router.post('/create', checkSchema(createSpecialist), checkDataValidation, async (req, res) => {
 	const { data } = req;
 
