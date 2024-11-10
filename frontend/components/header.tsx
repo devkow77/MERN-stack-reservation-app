@@ -4,7 +4,7 @@ import {
   SignClientBtn,
   SignSpecialistBtn,
 } from "./index";
-import { Input } from "./ui/input";
+import { Input } from "../components/ui/input";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { ReactTyped } from "react-typed";
 import { FaSearch } from "react-icons/fa";
@@ -25,16 +25,16 @@ const Header = () => {
 
   return (
     <header className="relative h-[600px] w-full text-white">
-      <div className="absolute z-0 h-full w-full bg-black/50" />
+      <div className="absolute z-10 h-full w-full bg-black/50" />
       <video
         autoPlay
         loop
         muted
-        className="absolute -z-10 h-full w-full object-cover"
+        className="absolute h-full w-full object-cover"
       >
         <source src="/header.mp4" type="video/mp4" />
       </video>
-      <Container className="relative flex h-full flex-col justify-between py-6">
+      <Container className="relative z-20 flex h-full flex-col justify-between py-6">
         <nav className="flex items-center justify-between">
           <a href="/">
             <h1 className="font-semibold">booking</h1>
@@ -42,7 +42,7 @@ const Header = () => {
           {desktop ? (
             <div className="flex items-center gap-4">
               <SignClientBtn name="Zaloguj się jako klient" />
-              <SignSpecialistBtn />
+              <SignSpecialistBtn name="Dodaj swój biznes 💼" />
             </div>
           ) : (
             <div className="flex items-center gap-4">
@@ -75,7 +75,7 @@ const Header = () => {
                 <FaSearch className="text-black/60" />
               </div>
               <Input
-                className="border-none text-black outline-none placeholder:text-black/60 lg:text-base"
+                className="border-none text-black shadow-none outline-none placeholder:text-black/60 lg:text-base"
                 placeholder="Szukaj usług lub biznesów"
               />
             </div>

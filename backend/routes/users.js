@@ -1,11 +1,23 @@
 import { Router } from 'express';
 import { checkSchema } from 'express-validator';
-import { createUser, loginUser } from '../validators/user.js';
+import { checkEmail, createUser, loginUser } from '../validators/user.js';
 import User from '../schema/user.js';
 import { hashPassword, comparePasswords } from '../utils/bcrypt.js';
 import { checkDataValidation } from '../middlewares/index.js';
 
 const router = Router();
+
+// Check if user with provided email exist
+router.post('/check', checkSchema(checkEmail), checkDataValidation, async (req, res) => {
+	const { data } = req;
+	try {
+		const userExist = await User.findOne({ email: data.email });
+		if (!userExist) return res.status(200).send('3');
+		return res.status(200).send('2');
+	} catch (err) {
+		return res.status(400).send(err.message);
+	}
+});
 
 // Create new user
 router.post('/create', checkSchema(createUser), checkDataValidation, async (req, res) => {
@@ -17,6 +29,9 @@ router.post('/create', checkSchema(createUser), checkDataValidation, async (req,
 
 		const findUserByUsername = await User.findOne({ username: data.username });
 		if (findUserByUsername) throw new Error('Username already in use!');
+
+		const findUserByPhoneNumber = await User.findOne({ phoneNumber: data.phoneNumber });
+		if (findUserByPhoneNumber) throw new Error({ statusText: 'Phone number already in use!' });
 
 		const newUser = new User(data);
 		newUser.password = await hashPassword(data.password);

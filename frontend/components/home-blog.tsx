@@ -1,11 +1,55 @@
+import { useEffect, useState } from "react";
 import { Container } from "../components/index";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-
+import { GraphQLClient } from "graphql-request";
 import "swiper/css";
 import "swiper/css/pagination";
+import { Link } from "react-router-dom";
+
+const hygraph = new GraphQLClient(
+  import.meta.env.VITE_HYGRAPH_API_KEY as string,
+);
+
+interface Post {
+  slug: string;
+  title: string;
+  image: {
+    url: string;
+  };
+  content: {
+    html: string;
+  };
+  createdAt: string;
+}
 
 const HomeBlog = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const query = `
+    query getPosts {
+      posts{
+        slug,
+        image {
+          url
+        },
+        title,
+        content {
+          html
+        },
+        createdAt,
+      }
+    }
+  `;
+
+  const getPosts = async () => {
+    const { posts }: { posts: Post[] } = await hygraph.request(query);
+    setPosts(posts);
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <article className="lg:py-8">
       <Container>
@@ -29,15 +73,35 @@ const HomeBlog = () => {
             }}
             pagination={{ clickable: true }}
           >
-            {Array.from({ length: 6 }).map((_, index) => (
+            {posts.map(({ slug, title, createdAt, image: { url } }: Post) => (
               <SwiperSlide
-                key={index}
-                className="flex aspect-video items-center justify-center rounded-xl bg-black/10"
+                key={slug}
+                className="relative h-[300px] w-full rounded-xl md:h-[250px]"
               >
-                <div className="text-center">
-                  <h3 className="text-lg font-semibold">Blog {index + 1}</h3>
-                  <p className="text-sm">08.11.2024</p>
-                </div>
+                <Link to={`/blog/${slug}`}>
+                  <div className="relative h-2/3 w-full rounded-xl rounded-b-none">
+                    <img
+                      src={url}
+                      alt={title}
+                      className="absolute h-full w-full rounded-xl rounded-b-none object-cover object-center"
+                    />
+                  </div>
+                  <div className="flex h-1/3 flex-col justify-center rounded-xl rounded-t-none px-4">
+                    <h3 className="text-md font-semibold">{title}</h3>
+                    <p className="text-sm opacity-80">
+                      Data utworzenia:{" "}
+                      <span className="font-semibold">
+                        {new Date(createdAt).toLocaleDateString("pl-PL", {
+                          year: "numeric",
+                          month: "long",
+                          day: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </p>
+                  </div>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>

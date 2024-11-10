@@ -4,7 +4,7 @@ import ModeToggle from "./mode-toggle";
 import Header from "./header";
 import MobileMenu from "./mobile-menu";
 import HamburgerBtn from "./hamburger-btn";
-import Services from "./services";
+import HomeServices from "./home-services";
 import LoginForm from "./login-form";
 import SignClientBtn from "./sign-client-btn";
 import SignSpecialistBtn from "./sign-specialist-btn";
@@ -21,7 +21,7 @@ export {
   Header,
   MobileMenu,
   HamburgerBtn,
-  Services,
+  HomeServices,
   LoginForm,
   SignClientBtn,
   SignSpecialistBtn,

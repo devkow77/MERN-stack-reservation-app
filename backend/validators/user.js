@@ -1,5 +1,17 @@
 import { passwordRegex } from '../config.js';
 
+const checkEmail = {
+	email: {
+		isEmail: {
+			errorMessage: 'Invalid email',
+		},
+		normalizeEmail: true,
+		notEmpty: {
+			errorMessage: 'Email is required',
+		},
+	},
+};
+
 const createUser = {
 	username: {
 		isString: {
@@ -68,4 +80,4 @@ const loginUser = {
 	},
 };
 
-export { createUser, loginUser };
+export { checkEmail, createUser, loginUser };

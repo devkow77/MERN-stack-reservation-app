@@ -1,4 +1,4 @@
-import { Container } from "./index";
+import { Container } from "../components/index";
 
 const HomeSpecialists = () => {
   return (
@@ -8,7 +8,7 @@ const HomeSpecialists = () => {
           <h2 className="text-center text-2xl font-semibold lg:text-4xl">
             Znajdź specjalistę na Booking według miasta
           </h2>
-          <div className="h-[300px] rounded-xl bg-black/30"></div>
+          <div className="h-[300px] rounded-xl bg-black/30 dark:bg-white/30"></div>
         </section>
       </Container>
     </article>

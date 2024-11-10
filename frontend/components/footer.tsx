@@ -13,16 +13,17 @@ const links: string[] = [
 
 const Footer = () => {
   return (
-    <footer className="bg-zinc-900 py-8 text-white">
+    <footer className="bg-zinc-900 py-8 text-white dark:bg-white/5">
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-6">
           <ul className="flex flex-wrap items-center gap-4 text-sm lg:gap-8">
             {links.map((link, index: number) => (
               <a
                 href="/"
+                key={index}
                 className="font-semibold duration-200 hover:text-sky-500 hover:underline"
               >
-                <li key={index}>{link}</li>
+                <li>{link}</li>
               </a>
             ))}
           </ul>

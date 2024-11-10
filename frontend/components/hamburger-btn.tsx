@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { MobileMenu } from "./index";
+import { MobileMenu } from "../components/index";
 
 const HamburgerBtn = () => {
   const [toggle, setToggle] = useState<boolean>(false);

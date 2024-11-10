@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link as LinkType } from "../src/lib/interfaces";
-import SignSpecialistBtn from "./sign-specialist-btn";
+import { SignSpecialistBtn } from "../components/index";
 
 const links: LinkType[] = [
   {
@@ -68,7 +68,7 @@ const MobileMenu = () => {
           </a>
         ))}
         <motion.div animate={{ opacity: [0, 1] }} transition={{ duration: 2 }}>
-          <SignSpecialistBtn />
+          <SignSpecialistBtn name={"Dodaj swój biznes 💼"} />
         </motion.div>
       </div>
     </motion.section>

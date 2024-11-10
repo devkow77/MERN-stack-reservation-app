@@ -10,7 +10,13 @@ import mongoose from 'mongoose';
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+	cors({
+		origin: 'https://ur-mern-reservation-app.vercel.app',
+		methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+		credentials: true,
+	})
+);
 app.use(cookieParser());
 app.use(
 	session({

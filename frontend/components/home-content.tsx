@@ -1,4 +1,4 @@
-import { Container } from "./index";
+import { Container } from "../components/index";
 
 const HomeContent = () => {
   return (
@@ -29,7 +29,7 @@ const HomeContent = () => {
             </p>
           </div>
           <div className="max-w-sm md:w-1/2 md:max-w-md">
-            <img src="/reservation.jpg" alt="reservation" />
+            <img src="/reservation.png" alt="reservation" />
           </div>
         </section>
         <section className="flex flex-col gap-8 md:flex-row-reverse md:items-center md:justify-between">
@@ -49,7 +49,7 @@ const HomeContent = () => {
             </p>
           </div>
           <div className="max-w-sm md:w-1/2 md:max-w-md">
-            <img src="/forgot.jpg" alt="forgot" />
+            <img src="/forgot.png" alt="forgot" />
           </div>
         </section>
         <section className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
@@ -71,7 +71,7 @@ const HomeContent = () => {
             </p>
           </div>
           <div className="max-w-sm md:w-1/2 md:max-w-md">
-            <img src="/best.jpg" alt="best" />
+            <img src="/best.png" alt="best" />
           </div>
         </section>
       </Container>
